@@ -1,0 +1,201 @@
+/* CollabDesk - App Styles */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F6F7FB;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C4B5FD;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A78BFA;
+}
+
+/* Animation utilities */
+.animate-on-load {
+  opacity: 0;
+  transform: translateY(2rem);
+}
+
+.animate-on-load.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-violet {
+  background: linear-gradient(135deg, #6B46F8 0%, #8B5CF6 100%);
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(135deg, #FF2D8F 0%, #F472B6 100%);
+}
+
+/* Card hover effect */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* Status indicators */
+.status-online {
+  background-color: #17D05C;
+}
+
+.status-busy {
+  background-color: #FF2D8F;
+}
+
+.status-away {
+  background-color: #FFAA00;
+}
+
+.status-offline {
+  background-color: #6B6B7B;
+}
+
+/* Priority badges */
+.priority-lowest {
+  background-color: rgba(107, 107, 123, 0.2);
+  color: #6B6B7B;
+}
+
+.priority-low {
+  background-color: #DBEAFE;
+  color: #1D4ED8;
+}
+
+.priority-medium {
+  background-color: rgba(255, 170, 0, 0.2);
+  color: #B45309;
+}
+
+.priority-high {
+  background-color: #FED7AA;
+  color: #C2410C;
+}
+
+.priority-highest {
+  background-color: #FECACA;
+  color: #DC2626;
+}
+
+/* Drag and drop styles */
+.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+}
+
+.drop-target {
+  background-color: rgba(107, 70, 248, 0.1);
+  border: 2px dashed #6B46F8;
+}
+
+/* Focus styles */
+.focus-ring:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #6B46F8;
+  ring-offset: 2px;
+}
+
+/* Typography */
+.font-display {
+  font-family: 'Space Grotesk', Inter, system-ui, sans-serif;
+}
+
+/* Transitions */
+.transition-all-smooth {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #F6F7FB 25%, #EDE9FE 50%, #F6F7FB 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Toast animations */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast-enter {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .hide-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 641px) {
+  .show-mobile {
+    display: none;
+  }
+}
