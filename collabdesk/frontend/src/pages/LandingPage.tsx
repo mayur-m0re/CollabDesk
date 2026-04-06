@@ -84,13 +84,13 @@ export default function LandingPage() {
             </div>
             <span className="font-display font-bold text-xl">CollabDesk</span>
           </div>
-          
+
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-sm font-medium text-slate hover:text-ink transition-colors">Features</a>
             <a href="#testimonials" className="text-sm font-medium text-slate hover:text-ink transition-colors">Testimonials</a>
             <a href="#pricing" className="text-sm font-medium text-slate hover:text-ink transition-colors">Pricing</a>
           </div>
-          
+
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="sm" onClick={() => navigateTo('/login')}>Sign in</Button>
             <Button size="sm" className="bg-primary hover:bg-primary/90" onClick={() => navigateTo('/register')}>Get started</Button>
@@ -99,7 +99,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section 
+      <section
         ref={heroRef}
         className="min-h-screen bg-primary relative overflow-hidden flex items-center"
       >
@@ -124,20 +124,20 @@ export default function LandingPage() {
                   Get started free
                   <ArrowRight className="w-4 h-4" />
                 </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
+                <Button
+                  size="lg"
+                  variant="outline"
                   className="border-white/30 text-white hover:bg-white/10"
                 >
                   See how it works
                 </Button>
               </div>
-              
+
               <div className="mt-12 flex items-center gap-6 animate-on-load opacity-0 translate-y-8 transition-all duration-700 delay-300">
                 <div className="flex -space-x-3">
                   {[1, 2, 3, 4].map((i) => (
-                    <div 
-                      key={i} 
+                    <div
+                      key={i}
                       className="w-10 h-10 rounded-full bg-white/20 border-2 border-primary flex items-center justify-center text-sm font-medium"
                     >
                       {String.fromCharCode(64 + i)}
@@ -192,7 +192,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div 
+              <div
                 key={index}
                 className="p-8 rounded-3xl bg-surface hover:bg-primary/5 transition-colors group"
               >
@@ -324,20 +324,20 @@ export default function LandingPage() {
               },
               {
                 name: 'Pro',
-                price: '$12',
+                price: '₹899',
                 description: 'For growing teams who need speed.',
                 features: ['Unlimited members', 'Unlimited projects', 'Advanced analytics', 'Priority support', 'Custom integrations'],
                 popular: true
               },
               {
                 name: 'Business',
-                price: '$24',
+                price: '₹1999',
                 description: 'For orgs that need control.',
                 features: ['Everything in Pro', 'SSO & SAML', 'Audit logs', 'Dedicated support', 'SLA guarantee']
               }
             ].map((plan, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className={`p-8 rounded-3xl ${plan.popular ? 'bg-primary text-white shadow-glow' : 'bg-surface'}`}
               >
                 {plan.popular && (
@@ -361,7 +361,7 @@ export default function LandingPage() {
                     </li>
                   ))}
                 </ul>
-                <Button 
+                <Button
                   className={`w-full ${plan.popular ? 'bg-white text-primary hover:bg-white/90' : 'bg-primary text-white hover:bg-primary/90'}`}
                   onClick={() => navigateTo('/register')}
                 >
@@ -387,9 +387,9 @@ export default function LandingPage() {
               Get started free
               <ArrowRight className="w-4 h-4" />
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
+            <Button
+              size="lg"
+              variant="outline"
               className="border-white/30 text-white hover:bg-white/10"
             >
               Talk to sales
@@ -443,7 +443,7 @@ export default function LandingPage() {
           </div>
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-white/40">
-              © 2024 CollabDesk. All rights reserved.
+              © 2026 CollabDesk. All rights reserved.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-white/40 hover:text-white">
