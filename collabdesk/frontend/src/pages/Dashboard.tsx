@@ -33,7 +33,7 @@ export default function Dashboard() {
   })
 
   useEffect(() => {
-    if (tasks.length > 0) {
+    if (tasks && tasks.length > 0) {
       setStats({
         totalProjects: projects.length,
         totalTasks: tasks.length,
@@ -43,8 +43,8 @@ export default function Dashboard() {
     }
   }, [tasks, projects])
 
-  const recentTasks = tasks.slice(0, 5)
-  const recentProjects = projects.slice(0, 4)
+  const recentTasks = tasks?.slice(0, 5) || []
+  const recentProjects = projects?.slice(0, 4) || []
 
   const getPriorityColor = (priority: string) => {
     const colors: Record<string, string> = {
@@ -85,7 +85,7 @@ export default function Dashboard() {
         <div>
           <h1 className="font-display font-bold text-3xl">Dashboard</h1>
           <p className="text-slate mt-1">
-            Welcome back, {user?.name?.split(' ')[0]}! Here's what's happening.
+            Welcome back, {user?.name ? user.name.split(' ')[0] : 'User'}! Here's what's happening .
           </p>
         </div>
         <div className="flex gap-3">
@@ -95,7 +95,7 @@ export default function Dashboard() {
           </Button>
 
           <Button className="bg-primary hover:bg-primary/90 gap-2"
-            onClick={() => { window.location.href = '/project' }}>
+            onClick={() => navigate('/project')}>
             <Plus className="w-4 h-4" />
             New Project
           </Button>
@@ -115,7 +115,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalProjects}</div>
             <p className="text-xs text-slate mt-1">
-              Across {workspaces.length} workspaces
+              Across {workspaces.length || 0} workspaces
             </p>
           </CardContent>
         </Card>
@@ -159,7 +159,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {workspaces.reduce((acc, w) => acc + (w.members?.length || 0) + 1, 0)}
+              {(workspaces || []).reduce((acc, w) => acc + (w.members?.length || 0) + 1, 0)}
             </div>
             <p className="text-xs text-slate mt-1">
               Active collaborators
@@ -189,7 +189,7 @@ export default function Dashboard() {
                   {recentProjects.map((project) => (
                     <div
                       key={project._id}
-                      onClick={() => navigateTo(`/project/${project._id}`)}
+                      onClick={() => navigate(`/project/${project._id}`)}
                       className="flex items-center gap-4 p-4 rounded-xl hover:bg-surface transition-colors group cursor-pointer"
                     >
                       <div
@@ -229,7 +229,7 @@ export default function Dashboard() {
                   <p className="text-slate">No projects yet</p>
 
                   <Button className="mt-4 bg-primary hover:bg-primary/90"
-                    onClick={() => { window.location.href = '/project' }}>
+                    onClick={() => navigate('/project')}>
                     Create your first project
                   </Button>
 
@@ -244,7 +244,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>My Tasks</CardTitle>
-              <Button variant="ghost" size="sm" className="gap-1" onClick={() => navigateTo('/tasks')}>
+              <Button variant="ghost" size="sm" className="gap-1" onClick={() => navigate('/tasks')}>
                 View all
               </Button>
             </CardHeader>
@@ -308,7 +308,7 @@ export default function Dashboard() {
               {workspaces.map((workspace) => (
                 <div
                   key={workspace._id}
-                  onClick={() => navigateTo(`/workspace/${workspace._id}`)}
+                  onClick={() => navigate(`/workspace/${workspace._id}`)}
                   className="p-4 rounded-2xl bg-surface hover:bg-primary/5 transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-3 mb-3">
