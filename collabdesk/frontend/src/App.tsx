@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, createContext } from 'react'
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { api } from './utils/api'
-// Pages
+import { AuthProvider, AuthContext } from './context/AuthContext'
 import LandingPage from './pages/LandingPage'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -18,83 +18,13 @@ import { ToastProvider } from './context/ToastContext'
 import Layout from './components/Layout'
 
 
-// Types
-interface User {
-  _id: string
-  name: string
-  email: string
-  avatar?: string
-  status: 'online' | 'offline' | 'busy' | 'away'
-  role: 'admin' | 'manager' | 'member'
-}
 
-interface AuthContextType {
-  user: User | null
-  token: string | null
-  login: (token: string, user: User) => void
-  logout: () => void
-  isLoading: boolean
-}
-
-
-export const AuthContext = createContext<AuthContextType>({
-  user: null,
-  token: null,
-  login: () => { },
-  logout: () => { },
-  isLoading: true
-})
-
-
-
-// Auth Provider
-function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'))
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    const initAuth = () => {
-      const storedToken = localStorage.getItem('token')
-      const storedUser = localStorage.getItem('user')
-
-      if (storedToken && storedUser) {
-        setToken(storedToken)
-        setUser(JSON.parse(storedUser))
-        api.setToken(storedToken)
-      }
-      setIsLoading(false)
-    }
-    initAuth()
-  }, [])
-
-  const login = (newToken: string, newUser: User) => {
-    localStorage.setItem('token', newToken)
-    localStorage.setItem('user', JSON.stringify(newUser))
-    setToken(newToken)
-    setUser(newUser)
-    api.setToken(newToken)
-  }
-
-  const logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    setToken(null)
-    setUser(null)
-    api.setToken(null)
-  }
-  return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
-      {children}
-    </AuthContext.Provider>
-  )
-}
 
 
 
 // Simple router based on pathname
 function Router() {
-  const { user, isLoading } = useContext(AuthContext)
+  const { user, isLoading } = useContext(AuthContext) as any
 
   if (isLoading) {
     return (
