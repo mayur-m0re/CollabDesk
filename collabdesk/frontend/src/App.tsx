@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { api } from './utils/api'
 // Pages
 import LandingPage from './pages/LandingPage'
 import Login from './pages/Login'
@@ -76,6 +77,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       if (storedToken && storedUser) {
         setToken(storedToken)
         setUser(JSON.parse(storedUser))
+        api.setToken(storedToken)
       }
       setIsLoading(false)
     }
@@ -87,6 +89,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('user', JSON.stringify(newUser))
     setToken(newToken)
     setUser(newUser)
+    api.setToken(newToken)
   }
 
   const logout = () => {
@@ -94,8 +97,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('user')
     setToken(null)
     setUser(null)
+    api.setToken(null)
   }
-
   return (
     <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
       {children}
