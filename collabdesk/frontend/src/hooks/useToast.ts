@@ -1,6 +1,5 @@
 import { useContext } from 'react'
-import { ToastContext } from '../App'
-
+import { ToastContext } from '../context/ToastContext'
 export function useToast() {
   const context = useContext(ToastContext)
   if (!context) {

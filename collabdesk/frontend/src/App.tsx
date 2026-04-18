@@ -1,4 +1,4 @@
-import { useState, useEffect, createContext, useContext } from 'react'
+import { useState, useEffect, useContext, createContext } from 'react'
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { api } from './utils/api'
@@ -14,10 +14,9 @@ import Team from './pages/Team'
 import Settings from './pages/Settings'
 import Profile from './pages/Profile'
 import CreateProject from './pages/CreateProject'
-
-// Components
+import { ToastProvider } from './context/ToastContext'
 import Layout from './components/Layout'
-import Toast from './components/Toast'
+
 
 // Types
 interface User {
@@ -37,19 +36,7 @@ interface AuthContextType {
   isLoading: boolean
 }
 
-interface ToastType {
-  id: string
-  message: string
-  type: 'success' | 'error' | 'info'
-}
 
-interface ToastContextType {
-  toasts: ToastType[]
-  addToast: (message: string, type?: 'success' | 'error' | 'info') => void
-  removeToast: (id: string) => void
-}
-
-// Contexts
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   token: null,
@@ -58,11 +45,7 @@ export const AuthContext = createContext<AuthContextType>({
   isLoading: true
 })
 
-export const ToastContext = createContext<ToastContextType>({
-  toasts: [],
-  addToast: () => { },
-  removeToast: () => { }
-})
+
 
 // Auth Provider
 function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -107,34 +90,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
   )
 }
 
-// Toast Provider
-function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<ToastType[]>([])
 
-  const addToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    const id = Math.random().toString(36).substr(2, 9)
-    setToasts(prev => [...prev, { id, message, type }])
-
-    setTimeout(() => {
-      removeToast(id)
-    }, 5000)
-  }
-
-  const removeToast = (id: string) => {
-    setToasts(prev => prev.filter(t => t.id !== id))
-  }
-
-  return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
-      {children}
-      <div className="fixed bottom-4 right-4 z-50 space-y-2">
-        {toasts.map(toast => (
-          <Toast key={toast.id} {...toast} onClose={() => removeToast(toast.id)} />
-        ))}
-      </div>
-    </ToastContext.Provider>
-  )
-}
 
 // Simple router based on pathname
 function Router() {
