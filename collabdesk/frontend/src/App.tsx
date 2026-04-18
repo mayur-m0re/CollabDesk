@@ -1,6 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react'
 import './App.css'
-
+import { Routes, Route, Navigate } from 'react-router-dom'
 // Pages
 import LandingPage from './pages/LandingPage'
 import Login from './pages/Login'
@@ -51,15 +51,15 @@ interface ToastContextType {
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   token: null,
-  login: () => {},
-  logout: () => {},
+  login: () => { },
+  logout: () => { },
   isLoading: true
 })
 
 export const ToastContext = createContext<ToastContextType>({
   toasts: [],
-  addToast: () => {},
-  removeToast: () => {}
+  addToast: () => { },
+  removeToast: () => { }
 })
 
 // Auth Provider
@@ -72,7 +72,7 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     const initAuth = () => {
       const storedToken = localStorage.getItem('token')
       const storedUser = localStorage.getItem('user')
-      
+
       if (storedToken && storedUser) {
         setToken(storedToken)
         setUser(JSON.parse(storedUser))
@@ -110,7 +110,7 @@ function ToastProvider({ children }: { children: React.ReactNode }) {
   const addToast = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     const id = Math.random().toString(36).substr(2, 9)
     setToasts(prev => [...prev, { id, message, type }])
-    
+
     setTimeout(() => {
       removeToast(id)
     }, 5000)
@@ -135,7 +135,6 @@ function ToastProvider({ children }: { children: React.ReactNode }) {
 // Simple router based on pathname
 function Router() {
   const { user, isLoading } = useContext(AuthContext)
-  const path = window.location.pathname
 
   if (isLoading) {
     return (
@@ -145,26 +144,29 @@ function Router() {
     )
   }
 
-  // Public routes
-  if (path === '/') return <LandingPage />
-  if (path === '/login') return user ? <RedirectToDashboard /> : <Login />
-  if (path === '/register') return user ? <RedirectToDashboard /> : <Register />
+  return (
+    <Routes>
+      {/* Public */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+      <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <Register />} />
 
-  // Protected routes
-  if (!user) return <RedirectToLogin />
+      {/* Protected */}
+      <Route path="/dashboard" element={user ? <Layout><Dashboard /></Layout> : <Navigate to="/login" />} />
+      <Route path="/workspace/:id" element={user ? <Layout><Workspace /></Layout> : <Navigate to="/login" />} />
+      <Route path="/project/:id" element={user ? <Layout><Project /></Layout> : <Navigate to="/login" />} />
+      <Route path="/tasks" element={user ? <Layout><Tasks /></Layout> : <Navigate to="/login" />} />
+      <Route path="/team" element={user ? <Layout><Team /></Layout> : <Navigate to="/login" />} />
+      <Route path="/settings" element={user ? <Layout><Settings /></Layout> : <Navigate to="/login" />} />
+      <Route path="/profile" element={user ? <Layout><Profile /></Layout> : <Navigate to="/login" />} />
+      <Route path="/project/new" element={user ? <Layout><Project /></Layout> : <Navigate to="/login" />} />
 
-  // Protected pages with layout
-  if (path === '/dashboard') return <Layout><Dashboard /></Layout>
-  if (path.startsWith('/workspace/')) return <Layout><Workspace /></Layout>
-  if (path.startsWith('/project/')) return <Layout><Project /></Layout>
-  if (path === '/tasks') return <Layout><Tasks /></Layout>
-  if (path === '/team') return <Layout><Team /></Layout>
-  if (path === '/settings') return <Layout><Settings /></Layout>
-  if (path === '/profile') return <Layout><Profile /></Layout>
-
-  // Default redirect
-  return <RedirectToDashboard />
+      {/* Default */}
+      <Route path="*" element={<Navigate to="/dashboard" />} />
+    </Routes>
+  )
 }
+
 
 function RedirectToLogin() {
   useEffect(() => {

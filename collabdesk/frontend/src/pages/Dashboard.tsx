@@ -74,9 +74,7 @@ export default function Dashboard() {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   }
 
-  const navigateTo = (path: string) => {
-    window.location.href = path
-  }
+
 
   return (
     <div className="space-y-8">
@@ -95,7 +93,7 @@ export default function Dashboard() {
           </Button>
 
           <Button className="bg-primary hover:bg-primary/90 gap-2"
-            onClick={() => navigate('/project')}>
+            onClick={() => navigate('/project/new')}>
             <Plus className="w-4 h-4" />
             New Project
           </Button>
@@ -175,7 +173,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Recent Projects</CardTitle>
-              <Button variant="ghost" size="sm" className="gap-1" onClick={() => navigateTo('/projects')}>
+              <Button variant="ghost" size="sm" className="gap-1" onClick={() => navigate('/projects')}>
                 View all
               </Button>
             </CardHeader>
@@ -229,7 +227,7 @@ export default function Dashboard() {
                   <p className="text-slate">No projects yet</p>
 
                   <Button className="mt-4 bg-primary hover:bg-primary/90"
-                    onClick={() => navigate('/project')}>
+                    onClick={() => navigate('/project/new')}>
                     Create your first project
                   </Button>
 
