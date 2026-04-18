@@ -227,7 +227,7 @@ export default function Dashboard() {
                   <p className="text-slate">No projects yet</p>
 
                   <Button className="mt-4 bg-primary hover:bg-primary/90"
-                    onClick={() => navigate('/project')}>
+                    onClick={() => navigate('/project/new')}>
                     Create your first project
                   </Button>
 
