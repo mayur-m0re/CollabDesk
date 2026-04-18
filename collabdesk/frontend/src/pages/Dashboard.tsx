@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { 
-  FolderKanban, 
-  CheckSquare, 
-  Users, 
-  TrendingUp, 
-  Plus, 
+import { useNavigate } from 'react-router-dom'
+import {
+  FolderKanban,
+  CheckSquare,
+  Users,
+  TrendingUp,
+  Plus,
   Clock,
   Calendar
 } from 'lucide-react'
@@ -21,7 +22,9 @@ export default function Dashboard() {
   const { workspaces, isLoading: workspacesLoading } = useWorkspaces()
   const { projects, isLoading: projectsLoading } = useProjects()
   const { tasks, isLoading: tasksLoading } = useTasks()
-  
+
+  const navigate = useNavigate()
+
   const [stats, setStats] = useState({
     totalProjects: 0,
     totalTasks: 0,
@@ -90,10 +93,13 @@ export default function Dashboard() {
             <Calendar className="w-4 h-4" />
             {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
           </Button>
-          <Button className="bg-primary hover:bg-primary/90 gap-2">
+
+          <Button className="bg-primary hover:bg-primary/90 gap-2"
+            onClick={() => { window.location.href = '/project' }}>
             <Plus className="w-4 h-4" />
             New Project
           </Button>
+
         </div>
       </div>
 
@@ -181,12 +187,12 @@ export default function Dashboard() {
               ) : recentProjects.length > 0 ? (
                 <div className="space-y-4">
                   {recentProjects.map((project) => (
-                    <div 
-                      key={project._id} 
+                    <div
+                      key={project._id}
                       onClick={() => navigateTo(`/project/${project._id}`)}
                       className="flex items-center gap-4 p-4 rounded-xl hover:bg-surface transition-colors group cursor-pointer"
                     >
-                      <div 
+                      <div
                         className="w-12 h-12 rounded-xl flex items-center justify-center text-white font-bold text-lg"
                         style={{ backgroundColor: project.color || '#6B46F8' }}
                       >
@@ -207,7 +213,7 @@ export default function Dashboard() {
                         </div>
                         <div className="w-24">
                           <div className="h-2 bg-surface rounded-full overflow-hidden">
-                            <div 
+                            <div
                               className="h-full bg-primary rounded-full transition-all"
                               style={{ width: `${project.progress}%` }}
                             />
@@ -221,9 +227,12 @@ export default function Dashboard() {
                 <div className="text-center py-12">
                   <FolderKanban className="w-12 h-12 text-slate mx-auto mb-4" />
                   <p className="text-slate">No projects yet</p>
-                  <Button className="mt-4 bg-primary hover:bg-primary/90">
+
+                  <Button className="mt-4 bg-primary hover:bg-primary/90"
+                    onClick={() => { window.location.href = '/project' }}>
                     Create your first project
                   </Button>
+
                 </div>
               )}
             </CardContent>
@@ -247,7 +256,7 @@ export default function Dashboard() {
               ) : recentTasks.length > 0 ? (
                 <div className="space-y-3">
                   {recentTasks.map((task) => (
-                    <div 
+                    <div
                       key={task._id}
                       className="p-3 rounded-xl bg-surface hover:bg-primary/5 transition-colors cursor-pointer"
                     >
@@ -303,7 +312,7 @@ export default function Dashboard() {
                   className="p-4 rounded-2xl bg-surface hover:bg-primary/5 transition-colors group cursor-pointer"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <div 
+                    <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-white font-bold"
                       style={{ backgroundColor: workspace.logo || '#6B46F8' }}
                     >
