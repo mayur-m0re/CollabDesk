@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useParams } from '../utils/router'
-import { 
-  ArrowLeft, 
-  MoreHorizontal, 
-  Plus, 
+import {
+  ArrowLeft,
+  MoreHorizontal,
+  Plus,
   Calendar,
   Users,
   CheckSquare,
@@ -39,7 +39,7 @@ import KanbanBoard from '../components/KanbanBoard'
 export default function Project() {
   const { id } = useParams()
   const { addToast } = useToast()
-  
+
   const [project, setProject] = useState<ProjectType | null>(null)
   const [tasks, setTasks] = useState<Task[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -56,12 +56,13 @@ export default function Project() {
   const [isCreating, setIsCreating] = useState(false)
 
   useEffect(() => {
-    if (id) {
-      fetchProjectData()
-    }
+    if (!id || id === 'new') return
+
+    fetchProjectData()
   }, [id])
 
   const fetchProjectData = async () => {
+    if (!id || id === 'new') return
     try {
       setIsLoading(true)
       const projectData = await api.getProject(id!)
@@ -107,7 +108,7 @@ export default function Project() {
       if (!task || task.status === newStatus) return
 
       // Optimistic update
-      setTasks(prev => prev.map(t => 
+      setTasks(prev => prev.map(t =>
         t._id === taskId ? { ...t, status: newStatus as Task['status'] } : t
       ))
 
@@ -126,15 +127,24 @@ export default function Project() {
 
   const formatDate = (dateString?: string) => {
     if (!dateString) return 'No due date'
-    return new Date(dateString).toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
     })
   }
 
   const navigateTo = (path: string) => {
     window.location.href = path
+  }
+
+  if (id === 'new') {
+    return (
+      <div className="text-center py-12">
+        <h2 className="text-xl font-semibold">Create New Project</h2>
+        <p className="text-slate mt-2">Project creation page not implemented yet</p>
+      </div>
+    )
   }
 
   if (isLoading) {
@@ -157,17 +167,17 @@ export default function Project() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4">
-        <button 
+        <button
           onClick={() => navigateTo(`/workspace/${typeof project.workspace === 'string' ? project.workspace : project.workspace._id}`)}
           className="flex items-center gap-2 text-slate hover:text-primary transition-colors w-fit"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to workspace
         </button>
-        
+
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div 
+            <div
               className="w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-xl"
               style={{ backgroundColor: project.color || '#6B46F8' }}
             >
@@ -190,7 +200,7 @@ export default function Project() {
               <Users className="w-4 h-4" />
               Share
             </Button>
-            <Button 
+            <Button
               className="bg-primary hover:bg-primary/90 gap-2"
               onClick={() => setIsTaskDialogOpen(true)}
             >
@@ -203,7 +213,7 @@ export default function Project() {
 
       {/* Progress Bar */}
       <div className="h-2 bg-surface rounded-full overflow-hidden">
-        <div 
+        <div
           className="h-full bg-primary rounded-full transition-all"
           style={{ width: `${project.progress}%` }}
         />
@@ -227,7 +237,7 @@ export default function Project() {
         </TabsList>
 
         <TabsContent value="board" className="mt-6">
-          <KanbanBoard 
+          <KanbanBoard
             tasks={tasks}
             onTaskMove={handleTaskMove}
             onTaskClick={handleTaskClick}
@@ -243,7 +253,7 @@ export default function Project() {
               {tasks.length > 0 ? (
                 <div className="space-y-2">
                   {tasks.map((task) => (
-                    <div 
+                    <div
                       key={task._id}
                       onClick={() => handleTaskClick(task)}
                       className="flex items-center gap-4 p-4 rounded-xl bg-surface hover:bg-primary/5 transition-colors cursor-pointer"
@@ -268,7 +278,7 @@ export default function Project() {
                 <div className="text-center py-12">
                   <CheckSquare className="w-12 h-12 text-slate mx-auto mb-4" />
                   <p className="text-slate">No tasks yet</p>
-                  <Button 
+                  <Button
                     className="mt-4 bg-primary hover:bg-primary/90"
                     onClick={() => setIsTaskDialogOpen(true)}
                   >
@@ -316,14 +326,14 @@ export default function Project() {
               <CardContent>
                 <div className="space-y-3">
                   {project.members?.map((member) => (
-                    <div 
+                    <div
                       key={member.user._id}
                       className="flex items-center gap-3"
                     >
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
                         {member.user.avatar ? (
-                          <img 
-                            src={member.user.avatar} 
+                          <img
+                            src={member.user.avatar}
                             alt={member.user.name}
                             className="w-10 h-10 rounded-full"
                           />
@@ -377,8 +387,8 @@ export default function Project() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Status</Label>
-                <Select 
-                  value={newTask.status} 
+                <Select
+                  value={newTask.status}
                   onValueChange={(value) => setNewTask(prev => ({ ...prev, status: value as typeof prev.status }))}
                 >
                   <SelectTrigger>
@@ -394,8 +404,8 @@ export default function Project() {
               </div>
               <div className="space-y-2">
                 <Label>Priority</Label>
-                <Select 
-                  value={newTask.priority} 
+                <Select
+                  value={newTask.priority}
                   onValueChange={(value) => setNewTask(prev => ({ ...prev, priority: value as typeof prev.priority }))}
                 >
                   <SelectTrigger>
@@ -414,8 +424,8 @@ export default function Project() {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Type</Label>
-                <Select 
-                  value={newTask.type} 
+                <Select
+                  value={newTask.type}
                   onValueChange={(value) => setNewTask(prev => ({ ...prev, type: value as typeof prev.type }))}
                 >
                   <SelectTrigger>
@@ -443,7 +453,7 @@ export default function Project() {
             <Button variant="outline" onClick={() => setIsTaskDialogOpen(false)}>
               Cancel
             </Button>
-            <Button 
+            <Button
               onClick={handleCreateTask}
               disabled={!newTask.title.trim() || isCreating}
               className="bg-primary hover:bg-primary/90"
