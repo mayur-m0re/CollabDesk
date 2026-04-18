@@ -33,14 +33,12 @@ export default function Dashboard() {
   })
 
   useEffect(() => {
-    if (tasks && tasks.length > 0) {
-      setStats({
-        totalProjects: projects.length,
-        totalTasks: tasks.length,
-        completedTasks: tasks.filter(t => t.status === 'completed').length,
-        inProgressTasks: tasks.filter(t => t.status === 'in_progress').length
-      })
-    }
+    setStats({
+      totalProjects: projects?.length || 0,
+      totalTasks: tasks?.length || 0,
+      completedTasks: tasks?.filter(t => t.status === 'completed').length || 0,
+      inProgressTasks: tasks?.filter(t => t.status === 'in_progress').length || 0
+    })
   }, [tasks, projects])
 
   const recentTasks = tasks?.slice(0, 5) || []
@@ -113,7 +111,7 @@ export default function Dashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalProjects}</div>
             <p className="text-xs text-slate mt-1">
-              Across {workspaces.length || 0} workspaces
+              Across {workspaces?.length || 0} workspaces
             </p>
           </CardContent>
         </Card>
@@ -173,7 +171,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Recent Projects</CardTitle>
-              <Button variant="ghost" size="sm" className="gap-1" onClick={() => navigate('/projects')}>
+              <Button disabled variant="ghost" size="sm" className="gap-1" onClick={() => navigate('/projects')}>
                 View all
               </Button>
             </CardHeader>
