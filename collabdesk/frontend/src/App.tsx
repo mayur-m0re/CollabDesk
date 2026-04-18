@@ -13,6 +13,7 @@ import Tasks from './pages/Tasks'
 import Team from './pages/Team'
 import Settings from './pages/Settings'
 import Profile from './pages/Profile'
+import CreateProject from './pages/CreateProject'
 
 // Components
 import Layout from './components/Layout'
@@ -162,7 +163,7 @@ function Router() {
       <Route path="/team" element={user ? <Layout><Team /></Layout> : <Navigate to="/login" />} />
       <Route path="/settings" element={user ? <Layout><Settings /></Layout> : <Navigate to="/login" />} />
       <Route path="/profile" element={user ? <Layout><Profile /></Layout> : <Navigate to="/login" />} />
-      <Route path="/project/new" element={user ? <Layout><Project /></Layout> : <Navigate to="/login" />} />
+      <Route path="/project/new" element={user ? <Layout><CreateProject /></Layout> : <Navigate to="/login" />} />
 
       {/* Default */}
       <Route path="*" element={<Navigate to="/dashboard" />} />
