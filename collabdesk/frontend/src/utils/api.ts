@@ -17,8 +17,10 @@ class ApiClient {
       ...options.headers as Record<string, string>
     }
 
-    if (this.token) {
-      headers['Authorization'] = `Bearer ${this.token}`
+    const token = this.token || localStorage.getItem('token')
+
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
     }
 
     const response = await fetch(url, {
