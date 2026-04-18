@@ -2,5 +2,10 @@ import { useContext } from 'react'
 import { ToastContext } from '../App'
 
 export function useToast() {
-  return useContext(ToastContext)
+  const context = useContext(ToastContext)
+  if (!context) {
+    throw new Error('useToast must be used within ToastProvider')
+  }
+
+  return context
 }
