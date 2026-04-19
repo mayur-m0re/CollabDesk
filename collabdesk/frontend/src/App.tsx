@@ -1,8 +1,10 @@
-import { useState, useEffect, useContext, createContext } from 'react'
+import { useEffect } from 'react'
+import { AuthProvider } from './context/AuthContext'
+
+
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { api } from './utils/api'
-import { AuthProvider, AuthContext } from './context/AuthContext'
 import LandingPage from './pages/LandingPage'
 import Login from './pages/Login'
 import Register from './pages/Register'
