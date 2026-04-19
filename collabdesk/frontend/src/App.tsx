@@ -16,7 +16,7 @@ import Profile from './pages/Profile'
 import CreateProject from './pages/CreateProject'
 import { ToastProvider } from './context/ToastContext'
 import Layout from './components/Layout'
-
+import { useAuth } from './hooks/useAuth'
 
 
 
@@ -24,7 +24,7 @@ import Layout from './components/Layout'
 
 // Simple router based on pathname
 function Router() {
-  const { user, isLoading } = useContext(AuthContext) as any
+  const { user, isLoading } = useAuth()
 
   if (isLoading) {
     return (
