@@ -7,10 +7,11 @@ import { api } from '../utils/api'
 import { useWorkspaces } from '../hooks/useWorkspaces'
 import { useNavigate } from 'react-router-dom'
 
-const navigate = useNavigate()
+
 
 export default function CreateProject() {
     const { addToast } = useToast()
+    const navigate = useNavigate()
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')

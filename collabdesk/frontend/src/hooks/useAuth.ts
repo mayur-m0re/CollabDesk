@@ -5,6 +5,8 @@ import { api } from '../utils/api'
 export function useAuth() {
   const context = useContext(AuthContext)
 
+  console.log("useAuth context:", context)
+
   if (!context) {
     throw new Error('useAuth must be used inside AuthProvider')
   }
@@ -17,3 +19,4 @@ export function useAuth() {
 
   return context
 }
+

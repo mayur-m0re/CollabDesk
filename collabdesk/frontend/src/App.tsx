@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { AuthProvider } from './context/AuthContext'
 
-
 import './App.css'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { api } from './utils/api'
